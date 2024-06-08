@@ -8,8 +8,8 @@ import os
 # Initialize device and model
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = from_pretrained(
-    # model_name_or_path="../checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
-    model_name_or_path="/root/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
+    # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
+    model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
     model_type="one_peace_retrieval",
     device=device,
     dtype="float32"
@@ -17,9 +17,9 @@ model = from_pretrained(
 
 # Load captions and prepare audio files
 # captions_path = "/Volumes/One_Touch/dcase2024/retreival/evaluation_dataset/retrieval_captions.csv"
-# audio_dir = "/Volumes/One_Touch/dcase2024/retreival/evaluation_dataset/test"
-captions_path = "/root/jaeyoung/data/retrieval_captions.csv"
-audio_dir = "/root/jaeyoung/data/test"
+# audio_dir = "/workspace/jaeyoung/evaluation_dataset/test"
+captions_path = "/workspace/jaeyoung/evaluation_dataset/retrieval_captions.csv"
+audio_dir = "/workspace/jaeyoung/evaluation_dataset/test"
 
 df = pd.read_csv(captions_path)
 text_queries = df['caption'].tolist()
@@ -43,7 +43,7 @@ if __name__ == '__main__':
         similarity_scores = torch.matmul(audio_features, text_features.T)
         
         # For each text query, find the top matching audio files
-        for text_idx, single_text_features in enumerate(text_features):
+        for text_idx, single_text_features in tqdm(enumerate(text_features)):
             single_similarity_scores = similarity_scores[:, text_idx]
             top_audio_indices = torch.topk(single_similarity_scores, k=10).indices
             top_audio_indices = top_audio_indices.cpu().numpy().tolist()
