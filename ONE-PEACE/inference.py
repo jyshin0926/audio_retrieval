@@ -58,15 +58,6 @@ results_df.to_csv(results_csv_path, index=False)
 print(f"Results saved to {results_csv_path}")
 
 
-
-
-# import torch
-# import json
-# from one_peace.models import from_pretrained
-# from tqdm import tqdm
-# import pandas as pd
-# import os
-
 # device = "cuda" if torch.cuda.is_available() else "cpu"
 # model = from_pretrained(
 # #   "ONE-PEACE_VGGSound",
