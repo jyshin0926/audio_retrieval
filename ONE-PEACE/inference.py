@@ -8,15 +8,18 @@ import os
 # Initialize device and model
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = from_pretrained(
-    model_name_or_path="/Users/jaeyoungshin/Desktop/dcase2024/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
+    # model_name_or_path="../checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
+    model_name_or_path="/root/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
     model_type="one_peace_retrieval",
     device=device,
     dtype="float32"
 )
 
 # Load captions and prepare audio files
-captions_path = "/Volumes/One_Touch/dcase2024/retreival/evaluation_dataset/retrieval_captions.csv"
-audio_dir = "/Volumes/One_Touch/dcase2024/retreival/evaluation_dataset/test"
+# captions_path = "/Volumes/One_Touch/dcase2024/retreival/evaluation_dataset/retrieval_captions.csv"
+# audio_dir = "/Volumes/One_Touch/dcase2024/retreival/evaluation_dataset/test"
+captions_path = "/root/jaeyoung/data/retrieval_captions.csv"
+audio_dir = "/root/jaeyoung/data/test"
 
 df = pd.read_csv(captions_path)
 text_queries = df['caption'].tolist()
@@ -50,7 +53,7 @@ if __name__ == '__main__':
             results_df.loc[len(results_df)] = [text_queries[text_idx]] + top_files
 
 # Save results to CSV
-results_csv_path = 'onepeace_retrieval_results.csv'
+results_csv_path = '/root/jaeyoung/submission/onepeace_retrieval_results.csv'
 results_df.to_csv(results_csv_path, index=False)
 print(f"Results saved to {results_csv_path}")
 
