@@ -154,7 +154,7 @@ class AdjustEncDecConfig(EncDecBaseConfig):
         metadata={"help": "use text moe"},
     )
     use_image_moe: bool = field(
-        default=True,
+        default=False,
         metadata={"help": "use image moe"},
     )
     use_audio_moe: bool = field(

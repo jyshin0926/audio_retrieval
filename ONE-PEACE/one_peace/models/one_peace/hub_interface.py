@@ -20,7 +20,6 @@ from ... import models
 
 _MODELS = {
     "ONE-PEACE": "http://one-peace-shanghai.oss-accelerate.aliyuncs.com/one-peace.pt",
-    "ONE-PEACE_Grounding": "https://one-peace-shanghai.oss-accelerate.aliyuncs.com/one_peace_checkpoints/finetune_refcocog.pt",
     "ONE-PEACE_VGGSound": "https://one-peace-shanghai.oss-accelerate.aliyuncs.com/one_peace_checkpoints/finetune_vggsound.pt"
 }
 
@@ -88,6 +87,8 @@ class OnePeaceHubInterface:
         self.bpe = task.bpe
         self.eos = self.dict.eos()
         self.pad = self.dict.pad()
+       
+        # TODO:: delete the image part
         # for image
         mean = CLIP_DEFAULT_MEAN
         std = CLIP_DEFAULT_STD

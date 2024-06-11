@@ -9,17 +9,20 @@ import os
 # Initialize device and model
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = from_pretrained(
-    model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
+    # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
+    model_name_or_path="/home/data/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
     model_type="one_peace_retrieval",
     device=device,
     dtype="float16"
 )
 
 # Load captions and prepare audio files
-captions_path = "/workspace/jaeyoung/evaluation_dataset/retrieval_captions.csv"
-audio_dir = "/workspace/jaeyoung/evaluation_dataset/test"
+# captions_path = "/workspace/jaeyoung/evaluation_dataset/retrieval_captions.csv"
+# audio_dir = "/workspace/jaeyoung/evaluation_dataset/test"
+captions_path = "/home/data/clotho_dataset/clotho_captions_evaluation.csv"
+audio_dir = "/home/data/clotho_dataset/evaluation"
 df = pd.read_csv(captions_path)
-text_queries = df['caption'].tolist()
+text_queries = df['caption_1'].tolist()
 audio_files = os.listdir(audio_dir)
 audio_list = [os.path.join(audio_dir, x) for x in audio_files if not x.startswith('._')]
 
@@ -62,6 +65,6 @@ if __name__ == '__main__':
             results_df.loc[len(results_df)] = [text_queries[text_idx]] + top_files
 
         # Save results to CSV
-        results_csv_path = '/workspace/jaeyoung/dcase2024_retrieval/submission/onepeace_retrieval_results.csv'
+        results_csv_path = '/workspace/jaeyoung/evaluation_dataset/submission/onepeace_clotho_eval_caption1_results.csv'
         results_df.to_csv(results_csv_path, index=False)
         print(f"Results saved to {results_csv_path}")

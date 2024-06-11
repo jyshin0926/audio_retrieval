@@ -7,17 +7,17 @@ from one_peace.models import from_pretrained
 # Initialize device and model
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = from_pretrained(
-    model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
+    model_name_or_path="/home/data/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
     model_type="one_peace_retrieval",
     device=device,
     dtype="float16"
 )
 
 # Load captions and prepare audio files
-captions_path = "/workspace/jaeyoung/evaluation_dataset/clotho/clotho_captions_evaluation.csv"
-audio_dir = "/workspace/jaeyoung/evaluation_dataset/clotho/evaluation"
+captions_path = "/home/data/clotho_dataset/clotho_captions_evaluation.csv"
+audio_dir = "/home/data/clotho_dataset/evaluation"
 df = pd.read_csv(captions_path)
-text_queries = df['caption_4'].tolist()
+text_queries = df['caption_5'].tolist()
 file_names = df['file_name'].tolist()
 audio_files = os.listdir(audio_dir)
 audio_list = [os.path.join(audio_dir, x) for x in audio_files if not x.startswith('._')]
@@ -96,7 +96,6 @@ if __name__ == '__main__':
         # print(f"Metrics saved to {results_csv_path}")
 
 
-
 # # Load captions and prepare audio files
 # captions_path = "/workspace/jaeyoung/evaluation_dataset/clotho/clotho_captions_evaluation.csv"
 # audio_dir = "/workspace/jaeyoung/evaluation_dataset/clotho/evaluation"
@@ -110,7 +109,6 @@ if __name__ == '__main__':
 # audio_index_map = {file: i for i, file in enumerate(audio_list)}
 
 # results = []
-
 
 # # Batch processing parameters
 # audio_batch_size = 10  # Adjust based on your GPU capacity
@@ -138,45 +136,6 @@ if __name__ == '__main__':
 
 #         # Compute similarity scores
 #         similarity_scores = torch.matmul(all_audio_features, all_text_features.T)
-
-
-#         # Compute recall and mAP
-#         top_one = similarity_scores.topk(1, dim=1).indices
-#         top_five = similarity_scores.topk(5, dim=1).indices
-#         top_ten = similarity_scores.topk(10, dim=1).indices
-        
-#         target_indices = torch.tensor([audio_index_map.get(file_name, -1) for file_name in file_names], device=device)
-#         r_1 = (top_one.squeeze(1) == target_indices).float().mean().item()
-#         r_5 = (top_five == target_indices.unsqueeze(1)).any(dim=1).float().mean().item()
-#         r_10 = (top_ten == target_indices.unsqueeze(1)).any(dim=1).float().mean().item()
-
-#         ap_scores = []
-#         for i, target in enumerate(target_indices):
-#             valid_mask = (top_ten[i] == target).nonzero(as_tuple=True)
-#             if valid_mask[0].numel() > 0:  # Check if the target is within the top ten
-#                 rank = valid_mask[0][0].item() + 1  # Calculate the rank (1-indexed)
-#                 ap_scores.append(1 / rank)
-#             else:
-#                 ap_scores.append(0)
-#         mAP = sum(ap_scores) / len(ap_scores) if ap_scores else 0
-
-#         print(f"R@1: {r_1}, R@5: {r_5}, R@10: {r_10}, mAP: {mAP}")
-        
-#         # Append results
-#         for i, caption in enumerate(text_queries):
-#             results.append({
-#                 "caption": caption,
-#                 "R@1": r_1,
-#                 "R@5": r_5,
-#                 "R@10": r_10,
-#                 "mAP": mAP
-#             })
-
-#         # Save results
-#         results_df = pd.DataFrame(results)
-#         results_csv_path = '/workspace/jaeyoung/dcase2024_retrieval/submission/new_onepeace_retrieval_metrics.csv'
-#         results_df.to_csv(results_csv_path, index=False)
-#         print(f"Metrics saved to {results_csv_path}")
 
 
 
