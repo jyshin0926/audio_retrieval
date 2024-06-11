@@ -1,2 +1,2 @@
 from .audio_text_pretrain import AudioTextPretrainTask
-from .image_text_pretrain import ImageTextPretrainTask
+# from .image_text_pretrain import ImageTextPretrainTask

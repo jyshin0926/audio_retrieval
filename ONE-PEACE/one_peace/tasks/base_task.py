@@ -90,6 +90,7 @@ class BaseTask(FairseqTask):
         self.dict = dictionary
 
         bpe_dict = {
+            # TODO:: gpt2?? check
             "_name": "gpt2",
             "gpt2_encoder_json": os.path.join(self.cfg.bpe_dir, "encoder.json"),
             "gpt2_vocab_bpe": os.path.join(self.cfg.bpe_dir, "vocab.bpe")
