@@ -62,7 +62,8 @@ if __name__ == '__main__':
             top_audio_indices = torch.topk(single_similarity_scores, k=10).indices
             top_audio_indices = top_audio_indices.cpu().numpy().tolist()
             top_files = [audio_list[idx] for idx in top_audio_indices]
-            results_df.loc[len(results_df)] = [text_queries[text_idx]] + top_files
+            # results_df.loc[len(results_df)] = [text_queries[text_idx]] + top_files
+            results_df.loc[len(results_df)] = [text_queries[text_idx]] + os.path.basename(top_files)
 
         # Save results to CSV
         results_csv_path = '/workspace/jaeyoung/evaluation_dataset/submission/onepeace_clotho_eval_caption1_results.csv'
