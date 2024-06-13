@@ -34,34 +34,34 @@ class TextAdapterConfig(FairseqDataclass):
     )
 
 
-@dataclass
-class ImageAdapterConfig(FairseqDataclass):
-    bucket_size: int = field(
-        default=16,
-        metadata={"help": "image bucket size"},
-    )
-    rel_bucket_size: int = field(
-        default=16,
-        metadata={"help": "image relative bucket size"},
-    )
-    layernorm_embedding: bool = field(
-        default=False, metadata={"help": "add layernorm to embedding"}
-    )
-    add_type_embedding: bool = field(
-        default=False, metadata={"help": "add type embedding"}
-    )
-    vision_encoder_type: ChoiceEnum(["mlp", "hmlp", "none"]) = field(
-        default="hmlp",
-        metadata={"help": "vision encoder type"},
-    )
-    shrink_alpha: float = field(
-        default=1.0,
-        metadata={"help": ""},
-    )
-    dropout: float = field(default=0.0, metadata={"help": "dropout probability"})
-    use_attn_bias: bool = field(
-        default=False,
-        metadata={"help": ""},
+# @dataclass
+# class ImageAdapterConfig(FairseqDataclass):
+#     bucket_size: int = field(
+#         default=16,
+#         metadata={"help": "image bucket size"},
+#     )
+#     rel_bucket_size: int = field(
+#         default=16,
+#         metadata={"help": "image relative bucket size"},
+#     )
+#     layernorm_embedding: bool = field(
+#         default=False, metadata={"help": "add layernorm to embedding"}
+#     )
+#     add_type_embedding: bool = field(
+#         default=False, metadata={"help": "add type embedding"}
+#     )
+#     vision_encoder_type: ChoiceEnum(["mlp", "hmlp", "none"]) = field(
+#         default="hmlp",
+#         metadata={"help": "vision encoder type"},
+#     )
+#     shrink_alpha: float = field(
+#         default=1.0,
+#         metadata={"help": ""},
+#     )
+#     dropout: float = field(default=0.0, metadata={"help": "dropout probability"})
+#     use_attn_bias: bool = field(
+#         default=False,
+#         metadata={"help": ""},
     )
 
 
@@ -124,7 +124,7 @@ class AudioAdapterConfig(FairseqDataclass):
 @dataclass
 class AdjustEncDecConfig(EncDecBaseConfig):
     text_adapter: TextAdapterConfig = TextAdapterConfig()
-    image_adapter: ImageAdapterConfig = ImageAdapterConfig()
+    # image_adapter: ImageAdapterConfig = ImageAdapterConfig()
     audio_adapter: AudioAdapterConfig = AudioAdapterConfig()
 
     drop_path_rate: float = field(

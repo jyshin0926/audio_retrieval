@@ -148,25 +148,25 @@ class OnePeaceHubInterface:
         src_tokens = self.cast_data_dtype(src_tokens)
         return src_tokens
 
-    def process_image(self, image_list, return_image_sizes=False):
-        patch_images_list = []
-        image_width_list = []
-        image_height_list = []
-        for image_path in image_list:
-            image = Image.open(image_path).convert("RGB")
-            w, h = image.size
-            patch_image = self.transform(image)
-            patch_images_list.append(patch_image)
-            image_width_list.append(w)
-            image_height_list.append(h)
-        src_images = torch.stack(patch_images_list, dim=0).to(self.device)
-        src_images = self.cast_data_dtype(src_images)
-        if return_image_sizes:
-            image_widths = torch.tensor(image_width_list).to(self.device)
-            image_heights = torch.tensor(image_height_list).to(self.device)
-            return src_images, image_widths, image_heights
-        else:
-            return src_images
+    # def process_image(self, image_list, return_image_sizes=False):
+    #     patch_images_list = []
+    #     image_width_list = []
+    #     image_height_list = []
+    #     for image_path in image_list:
+    #         image = Image.open(image_path).convert("RGB")
+    #         w, h = image.size
+    #         patch_image = self.transform(image)
+    #         patch_images_list.append(patch_image)
+    #         image_width_list.append(w)
+    #         image_height_list.append(h)
+    #     src_images = torch.stack(patch_images_list, dim=0).to(self.device)
+    #     src_images = self.cast_data_dtype(src_images)
+    #     if return_image_sizes:
+    #         image_widths = torch.tensor(image_width_list).to(self.device)
+    #         image_heights = torch.tensor(image_height_list).to(self.device)
+    #         return src_images, image_widths, image_heights
+    #     else:
+    #         return src_images
 
     def process_audio(self, audio_list):
         feats_list = []
@@ -193,16 +193,16 @@ class OnePeaceHubInterface:
         audio_padding_masks = collate_tokens(audio_padding_mask_list, pad_idx=True).to(self.device)
         return src_audios, audio_padding_masks
 
-    def process_image_text_pairs(self, image_text_list, return_image_sizes=False):
-        image_list = [image_text_pair[0] for image_text_pair in image_text_list]
-        text_list = [image_text_pair[1] for image_text_pair in image_text_list]
-        src_tokens = self.process_text(text_list)
-        if return_image_sizes:
-            src_images, image_widths, image_heights = self.process_image(image_list, return_image_sizes=True)
-            return (src_images, image_widths, image_heights), src_tokens
-        else:
-            src_images = self.process_image(image_list)
-            return src_images, src_tokens
+    # def process_image_text_pairs(self, image_text_list, return_image_sizes=False):
+    #     image_list = [image_text_pair[0] for image_text_pair in image_text_list]
+    #     text_list = [image_text_pair[1] for image_text_pair in image_text_list]
+    #     src_tokens = self.process_text(text_list)
+    #     if return_image_sizes:
+    #         src_images, image_widths, image_heights = self.process_image(image_list, return_image_sizes=True)
+    #         return (src_images, image_widths, image_heights), src_tokens
+    #     else:
+    #         src_images = self.process_image(image_list)
+    #         return src_images, src_tokens
 
     def extract_text_features(self, src_tokens):
         if self.model_type == 'one_peace_classify':
@@ -210,11 +210,11 @@ class OnePeaceHubInterface:
         else:
             return self.model(src_tokens=src_tokens, encoder_type="text")
 
-    def extract_image_features(self, src_images):
-        if self.model_type == 'one_peace_classify':
-            return self.model(src_images=src_images)
-        else:
-            return self.model(src_images=src_images, encoder_type="image")
+    # def extract_image_features(self, src_images):
+    #     if self.model_type == 'one_peace_classify':
+    #         return self.model(src_images=src_images)
+    #     else:
+    #         return self.model(src_images=src_images, encoder_type="image")
 
     def extract_audio_features(self, src_audios, audio_padding_masks):
         if self.model_type == 'one_peace_classify':
@@ -222,5 +222,5 @@ class OnePeaceHubInterface:
         else:
             return self.model(src_audios=src_audios, audio_padding_masks=audio_padding_masks, encoder_type="audio")
 
-    def extract_vl_features(self, src_images, src_tokens):
-        return self.model(src_tokens=src_tokens, src_images=src_images)
+    # def extract_vl_features(self, src_images, src_tokens):
+    #     return self.model(src_tokens=src_tokens, src_images=src_images)

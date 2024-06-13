@@ -19,7 +19,7 @@ from fairseq import utils
 from ..unify_model_config import UnifyModelConfig
 from ..components import trunc_normal_
 from ..adapter.text import TextAdapter
-from ..adapter.image import ImageAdapter
+# from ..adapter.image import ImageAdapter
 from ..adapter.audio import AudioAdapter
 from ..transformer.transformer_encoder import TransformerEncoder
 from ..components import Linear, LayerNorm
@@ -52,8 +52,8 @@ class ModelWrapper(nn.Module):
         attention_heads = cfg.attention_heads
         if cfg.use_text_moe:
             self.text_adapter = TextAdapter(cfg.text_adapter, embed_dim, attention_heads, src_dict, num_layers)
-        if cfg.use_image_moe:
-            self.image_adapter = ImageAdapter(cfg.image_adapter, embed_dim, attention_heads, num_layers)
+        # if cfg.use_image_moe:
+        #     self.image_adapter = ImageAdapter(cfg.image_adapter, embed_dim, attention_heads, num_layers)
         if cfg.use_audio_moe:
             self.audio_adapter = AudioAdapter(cfg.audio_adapter, embed_dim, attention_heads, num_layers)
 
@@ -90,10 +90,10 @@ class ModelWrapper(nn.Module):
             text_info = self.text_adapter(
                 src_tokens, text_preserve_ids, text_preserve_embed, text_mask_token
             )
-        if encoder_type in ('image', 'vl', 'val'):
-            image_info = self.image_adapter(
-                src_images, image_preserve_ids, image_preserve_embed, image_mask_token, is_second_image
-            )
+        # if encoder_type in ('image', 'vl', 'val'):
+        #     image_info = self.image_adapter(
+        #         src_images, image_preserve_ids, image_preserve_embed, image_mask_token, is_second_image
+        #     )
         if encoder_type in ('audio', 'al', 'val'):
             audio_info = self.audio_adapter(
                 src_audios, audio_padding_masks,
@@ -104,7 +104,7 @@ class ModelWrapper(nn.Module):
 
         model_out = self.fusion_model(
             text_info,
-            image_info,
+            # image_info,
             audio_info,
             encoder_type=encoder_type
         )
@@ -116,9 +116,9 @@ class ModelWrapper(nn.Module):
         if encoder_type in ('text', 'vl', 'al', 'val'):
             text_features = model_logits[:, :text_info[0].size(1), :]
             text_padding_masks = encoder_padding_mask[:, :text_info[0].size(1)]
-        if encoder_type in ('image', 'vl', 'val'):
-            image_features = model_logits[:, -image_info[0].size(1):, :]
-            image_padding_masks = encoder_padding_mask[:, -image_info[0].size(1):]
+        # if encoder_type in ('image', 'vl', 'val'):
+        #     image_features = model_logits[:, -image_info[0].size(1):, :]
+        #     image_padding_masks = encoder_padding_mask[:, -image_info[0].size(1):]
         if encoder_type in ('audio', 'al', 'val'):
             audio_features = model_logits[:, -audio_info[0].size(1):, :]
             audio_padding_masks = encoder_padding_mask[:, -audio_info[0].size(1):]
