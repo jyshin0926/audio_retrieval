@@ -1,8 +1,3 @@
-#!/usr/bin/env python3 -u
-# Copyright (c) Facebook, Inc. and its affiliates.
-#
-# This source code is licensed under the MIT license found in the
-# LICENSE file in the root directory of this source tree.
 """
 Train a new model on one or across multiple GPUs.
 """
@@ -13,6 +8,10 @@ import math
 import os
 import sys
 from typing import Any, Dict, List, Optional, Tuple
+
+# os.environ['MASTER_PORT'] = '6081'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+# os.environ['GPUS_PER_NODE'] = '1'
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 

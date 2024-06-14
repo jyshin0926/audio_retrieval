@@ -3,8 +3,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class TSVReader:
-    def __init__(self, file_path, selected_cols=None, separator="\t"):
+class CSVReader:
+    def __init__(self, file_path, selected_cols=None, separator=","):
         fp = open(file_path, encoding='utf-8')
         headers = fp.readline().strip().split(separator)
         if selected_cols is not None:

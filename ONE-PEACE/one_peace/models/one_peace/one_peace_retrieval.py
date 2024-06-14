@@ -41,12 +41,12 @@ class OnePeaceRetrievalModel(OnePeaceBaseModel):
         self.head_type = head_type
 
         cfg.encoder.use_text_moe = False
-        # cfg.encoder.use_image_moe = False
+        cfg.encoder.use_image_moe = False
         cfg.encoder.use_audio_moe = False
         if self.head_type in ('text', 'vl', 'al', 'val'):
             cfg.encoder.use_text_moe = True
-        # if self.head_type in ('image', 'vl', 'val'):
-        #     cfg.encoder.use_image_moe = True
+        if self.head_type in ('image', 'vl', 'val'):
+            cfg.encoder.use_image_moe = True
         if self.head_type in ('audio', 'al', 'val'):
             cfg.encoder.use_audio_moe = True
 

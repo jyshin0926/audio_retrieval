@@ -1,12 +1,19 @@
 
-default_yaml: ../finetune_3B.yaml
+# default_yaml: ../finetune_3B.yaml
+default_yaml: /workspace/jaeyoung/dcase2024_retrieval/ONE-PEACE/one_peace/run_scripts/finetune_3B.yaml
 
 task:
   _name: audio_text_retrieval
-  data: ../../dataset/macs/merge_clotho_audiocaps_macs.tsv
-  valid_data: ../../dataset/audiocaps/audiocaps_val_new.tsv
-  selected_cols: uniq_id,audio,text,duration
-  valid_file: ../../dataset/audiocaps/val_texts.json
+  # data: /workspace/jaeyoung/data/WavText5K/processed_wavtext5k.csv
+  data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_development.csv
+  valid_data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation.csv
+  selected_cols: file_name,caption_1,caption_2,caption_3,caption_4,caption_5,keywords,sound_id
+  # selected_cols: title,description,fname,tags
+  valid_file: None
+  # data: ../../dataset/macs/merge_clotho_audiocaps_macs.tsv
+  # valid_data: ../../dataset/audiocaps/audiocaps_val_new.tsv
+  # selected_cols: uniq_id,audio,text,duration
+  # valid_file: ../../dataset/audiocaps/val_texts.json
 
   max_duration: 20
   head_type: al
