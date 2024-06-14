@@ -5,7 +5,7 @@
 
 from dataclasses import dataclass, field
 from typing import Optional
-import json
+import pandas as pd
 import logging
 import torch
 import torch.distributed as dist
@@ -44,10 +44,11 @@ class AudioTextRetrievalTask(BaseTask):
         if self.text_ids is None and self.cfg.valid_file is not None:
             self.text_ids = []
             self.texts = []
-            for text_id, text_list in json.load(open(self.cfg.valid_file)).items():
-                for text in text_list:
-                    self.text_ids.append(int(text_id))
-                    self.texts.append(text)
+            data = pd.read_csv(self.cfg.valid_file)
+
+            for index, row in data.iterrows():
+                self.text_ids.append(index)   # DataFrame의 인덱스를 저장
+                self.texts.append(row['caption_1'])  # 'caption_1' 열의 값을 저장
             self.text_ids = torch.tensor(self.text_ids).cuda()
 
         self.datasets[split] = AudioTextRetrievalDataset(

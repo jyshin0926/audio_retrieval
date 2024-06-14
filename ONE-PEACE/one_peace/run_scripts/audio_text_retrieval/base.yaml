@@ -9,7 +9,7 @@ task:
   valid_data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation.csv
   selected_cols: file_name,caption_1,caption_2,caption_3,caption_4,caption_5,keywords,sound_id
   # selected_cols: title,description,fname,tags
-  valid_file: None
+  valid_file: /workspace/jaeyoung/data/clotho_dataset/clotho_captions_validation.csv
   # data: ../../dataset/macs/merge_clotho_audiocaps_macs.tsv
   # valid_data: ../../dataset/audiocaps/audiocaps_val_new.tsv
   # selected_cols: uniq_id,audio,text,duration
