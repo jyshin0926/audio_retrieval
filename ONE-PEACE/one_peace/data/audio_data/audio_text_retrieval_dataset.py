@@ -26,12 +26,13 @@ class AudioTextRetrievalDataset(BaseDataset):
 
     def __getitem__(self, index, item_tuple=None):
         item_tuple = self.dataset[index] if item_tuple is None else item_tuple
-        uniq_id, audio, caption, duration = item_tuple
-        if uniq_id is not None:
-            uniq_id = int(uniq_id) if isinstance(uniq_id, int) or uniq_id.isdigit() else uniq_id
+        # uniq_id, audio, caption, duration = item_tuple
+        file_name,caption_1,caption_2,caption_3,caption_4,caption_5,keywords,sound_id = item_tuple
+        if sound_id is not None:
+            sound_id = int(sound_id) if isinstance(sound_id, int) or sound_id.isdigit() else sound_id
 
-        if audio is not None:
-            wav, curr_sample_rate = self.read_audio(audio)
+        if file_name is not None:
+            wav, curr_sample_rate = self.read_audio(file_name)
             feats = torch.tensor(wav)
         else:
             feats = torch.randn(16000)
@@ -40,11 +41,11 @@ class AudioTextRetrievalDataset(BaseDataset):
         T = self._get_mask_indices_dims(feats.size(-1), self.feature_encoder_spec)
         audio_padding_mask = torch.zeros(T + 1).bool()
 
-        caption = self.process_text(caption)
+        caption = self.process_text(caption_1)
         text_src_item = self.encode_text(' {}'.format(caption), self.max_src_length)
 
         example = {
-            "id": uniq_id,
+            "id": sound_id,
             "source_text": text_src_item,
             "source_audio": feats,
             "audio_padding_mask": audio_padding_mask,
