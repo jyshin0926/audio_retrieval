@@ -27,7 +27,9 @@ class AudioTextRetrievalDataset(BaseDataset):
     def __getitem__(self, index, item_tuple=None):
         item_tuple = self.dataset[index] if item_tuple is None else item_tuple
         # uniq_id, audio, caption, duration = item_tuple
-        file_name,caption_1,caption_2,caption_3,caption_4,caption_5,keywords,sound_id = item_tuple
+        # TODO:: caption 5개랑 keyword 는 어떻게 쓰면 좋을지 생각해보기 (+audio_text_retrieval.py 의 valid_file 이랑 같이 )
+        # file_name,caption_1,caption_2,caption_3,caption_4,caption_5,keywords,sound_id = item_tuple
+        keywords,caption_1,file_name,sound_id = item_tuple
         if sound_id is not None:
             sound_id = int(sound_id) if isinstance(sound_id, int) or sound_id.isdigit() else sound_id
 

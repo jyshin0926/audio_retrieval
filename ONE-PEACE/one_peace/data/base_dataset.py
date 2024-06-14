@@ -46,9 +46,9 @@ class BaseDataset(FairseqDataset):
     def __len__(self):
         return len(self.dataset)
 
-    # def read_image(self, image_path):
-    #     path = os.path.join(self.dataset_dir, image_path)
-    #     return Image.open(path).convert("RGB")
+    def read_image(self, image_path):
+        path = os.path.join(self.dataset_dir, image_path)
+        return Image.open(path).convert("RGB")
 
     def read_audio(self, audio_path):
         path = os.path.join(self.dataset_dir, audio_path)

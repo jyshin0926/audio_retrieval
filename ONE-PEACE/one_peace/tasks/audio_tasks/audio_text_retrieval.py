@@ -48,7 +48,7 @@ class AudioTextRetrievalTask(BaseTask):
 
             for index, row in data.iterrows():
                 self.text_ids.append(index)   # DataFrame의 인덱스를 저장
-                self.texts.append(row['caption_1'])  # 'caption_1' 열의 값을 저장
+                self.texts.append(row['caption_1'])  # 'caption_1' 열의 값을 저장  # TODO:: 나머지 caption 과 keyword는 어떻게 하면 좋을지 생각
             self.text_ids = torch.tensor(self.text_ids).cuda()
 
         self.datasets[split] = AudioTextRetrievalDataset(
