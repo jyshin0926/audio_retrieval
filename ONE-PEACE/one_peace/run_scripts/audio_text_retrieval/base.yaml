@@ -11,7 +11,6 @@ task:
   selected_cols: file_name,caption_1,sound_id
   # selected_cols: title,description,fname,tags
   valid_file: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation.csv
-  # valid_file: ../../dataset/audiocaps/val_texts.json
 
   max_duration: 20
   head_type: al
@@ -32,9 +31,11 @@ dataset:
 
 common:
   layer_decay: 0.95
+  # tensorboard_logdir: /workspace/jaeyoung/checkpoints/tensorboard/onepeace_finetuned_jy
 
 checkpoint:
   best_checkpoint_metric: txt_r1
+  save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_jy
 
 model:
   _name: one_peace_retrieval

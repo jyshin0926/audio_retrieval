@@ -45,7 +45,7 @@ common:
   memory_efficient_fp16: false
   bf16: true
   memory_efficient_bf16: true
-
+  # tensorboard_logdir: ???
   # use fp16
   #  fp16: true
   #  memory_efficient_fp16: true
@@ -63,6 +63,7 @@ common:
 checkpoint:
   # restore_file: ../../checkpoints/one-peace.pt
   restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt
+  save_dir: ???
   keep_last_epochs: 3
   save_interval: 1
   best_checkpoint_metric: ???
