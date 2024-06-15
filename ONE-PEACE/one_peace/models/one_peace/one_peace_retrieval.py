@@ -54,14 +54,14 @@ class OnePeaceRetrievalModel(OnePeaceBaseModel):
             cfg.encoder,
             src_dict,
             use_text_norm=cfg.encoder.use_text_moe,
-            # use_image_norm=cfg.encoder.use_image_moe,
+            use_image_norm=cfg.encoder.use_image_moe,
             use_audio_norm=cfg.encoder.use_audio_moe,
             num_layers=cfg.encoder.layers if cfg.copy_rel_pos_table else None
         )
         if cfg.encoder.use_text_moe:
             self.text_proj = Linear(embed_dim, embed_dim)
-        # if cfg.encoder.use_image_moe:
-        #     self.image_proj = Linear(embed_dim, embed_dim)
+        if cfg.encoder.use_image_moe:
+            self.image_proj = Linear(embed_dim, embed_dim)
         if cfg.encoder.use_audio_moe:
             self.audio_proj = Linear(embed_dim, embed_dim)
         self.logit_scale = nn.Parameter(torch.ones([]) * math.log(1 / 0.07))

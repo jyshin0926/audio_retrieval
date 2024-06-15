@@ -5,10 +5,11 @@ default_yaml: /workspace/jaeyoung/dcase2024_retrieval/ONE-PEACE/one_peace/run_sc
 task:
   _name: audio_text_retrieval
   # data: /workspace/jaeyoung/data/WavText5K/processed_wavtext5k.csv
-  data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_development.csv
+  # data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_development.csv
+  data: /workspace/jaeyoung/data/clotho_dev_wavtext5k.csv
   valid_data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation.csv
   # selected_cols: file_name,caption_1,caption_2,caption_3,caption_4,caption_5,keywords,sound_id
-  selected_cols: file_name,caption_1,sound_id
+  selected_cols: file_name,caption,sound_id
   # selected_cols: title,description,fname,tags
   valid_file: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation.csv
 
@@ -35,7 +36,8 @@ common:
 
 checkpoint:
   best_checkpoint_metric: txt_r1
-  save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_jy
+  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_jy
+  save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_clotho_wt5k
 
 model:
   _name: one_peace_retrieval

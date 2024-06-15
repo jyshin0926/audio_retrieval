@@ -26,12 +26,15 @@ class AudioTextRetrievalDataset(BaseDataset):
 
     def __getitem__(self, index, item_tuple=None):
         item_tuple = self.dataset[index] if item_tuple is None else item_tuple
+        # item_tuple = self.dataset[index]
         # uniq_id, audio, caption, duration = item_tuple
         # TODO:: caption 5개랑 keyword 는 어떻게 쓰면 좋을지 생각해보기 (+audio_text_retrieval.py 의 valid_file 이랑 같이 )
         # file_name,caption_1,caption_2,caption_3,caption_4,caption_5,keywords,sound_id = item_tuple
-        file_name, caption_1, sound_id, *others = item_tuple
+        file_name, caption, sound_id, *others = item_tuple
         if sound_id is not None:
-            sound_id = int(sound_id) if isinstance(sound_id, int) or sound_id.isdigit() else sound_id
+            # sound_id = int(sound_id) if isinstance(sound_id, int) or sound_id.isdigit() else sound_id
+            sound_id = int(sound_id) if isinstance(sound_id, int) or sound_id.isdigit() else 1  # 'Not found' 케이스 숫자 1 처리
+
 
         if file_name is not None:
             wav, curr_sample_rate = self.read_audio(file_name)
@@ -43,7 +46,7 @@ class AudioTextRetrievalDataset(BaseDataset):
         T = self._get_mask_indices_dims(feats.size(-1), self.feature_encoder_spec)
         audio_padding_mask = torch.zeros(T + 1).bool()
 
-        caption = self.process_text(caption_1)
+        caption = self.process_text(caption)
         text_src_item = self.encode_text(' {}'.format(caption), self.max_src_length)
 
         example = {
