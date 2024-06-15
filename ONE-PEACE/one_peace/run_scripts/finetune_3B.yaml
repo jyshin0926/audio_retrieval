@@ -33,7 +33,7 @@ optimization:
   clip_norm: 0.0
 
 dataset:
-  num_workers: 6
+  num_workers: 64
   batch_size: ???
   fixed_validation_seed: 3407
   validate_interval: 1

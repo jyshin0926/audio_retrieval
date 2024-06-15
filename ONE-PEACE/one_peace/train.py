@@ -262,8 +262,8 @@ def train(
     num_updates = trainer.get_num_updates()
     logger.info("Start iterating over samples")
     #TODO:: 여기 오류 찾기
+    print(f"Expected number of items: {len(progress)}")
     try:
-        print(f"Expected number of items: {len(progress)}")
         for i, samples in enumerate(progress):
             print(f"Processing item {i+1}")
             with metrics.aggregate("train_inner"), torch.autograd.profiler.record_function(
@@ -272,7 +272,6 @@ def train(
                 if update_freq > 1 and hasattr(epoch_itr.dataset, 'merge_samples'):
                     samples = epoch_itr.dataset.merge_samples(samples)
                 log_output = trainer.train_step(samples, empty_cache=(i == 0))
-
 
             if log_output is not None:  # not OOM, overflow, ...
                 # log mid-epoch stats
@@ -292,8 +291,12 @@ def train(
 
             if should_stop:
                 break
-    except StopIteration:
-        print(f"Iteration stopped unexpectedly at position {i}.")
+
+    except soundfile.LibsndfileError as e:
+        print(e)
+        print('e.args:',e.args)
+    # except StopIteration:
+    #     print(f"Iteration stopped unexpectedly at position {i}.")
 
     # log end-of-epoch stats
     logger.info("end of epoch {} (average epoch stats below)".format(epoch_itr.epoch))

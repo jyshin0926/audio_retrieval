@@ -37,7 +37,9 @@ common:
 checkpoint:
   best_checkpoint_metric: txt_r1
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_jy
-  save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_clotho_wt5k
+  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_clotho_wt5k
+  save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho_wt5k
+
 
 model:
   _name: one_peace_retrieval
