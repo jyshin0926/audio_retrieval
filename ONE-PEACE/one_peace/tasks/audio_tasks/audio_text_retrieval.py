@@ -84,7 +84,8 @@ class AudioTextRetrievalTask(BaseTask):
             samples_list = []
             for text in self.texts[i:min(i+50, end_idx)]:
                 text = "This is a sound of " + text if self.cfg.use_template else text
-                item_tuple = (0, None, text, 1)
+                # item_tuple = (0, None, text, 1)
+                item_tuple = (None, text, 0)
                 sample = dataset.__getitem__(0, item_tuple)
                 samples_list.append(sample)
             samples = dataset.collater(samples_list)

@@ -8,6 +8,7 @@ import math
 import os
 import sys
 from typing import Any, Dict, List, Optional, Tuple
+import soundfile
 
 # os.environ['MASTER_PORT'] = '6081'
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
@@ -260,32 +261,42 @@ def train(
     should_stop = False
     num_updates = trainer.get_num_updates()
     logger.info("Start iterating over samples")
-    for i, samples in enumerate(progress):
-        with metrics.aggregate("train_inner"), torch.autograd.profiler.record_function(
-            "train_step-%d" % i
-        ):
-            if update_freq > 1 and hasattr(epoch_itr.dataset, 'merge_samples'):
-                samples = epoch_itr.dataset.merge_samples(samples)
-            log_output = trainer.train_step(samples, empty_cache=(i == 0))
+    #TODO:: 여기 오류 찾기
+    try:
+        print(f"Expected number of items: {len(progress)}")
+        for i, samples in enumerate(progress):
+            print(f"Processing item {i+1}")
+            with metrics.aggregate("train_inner"), torch.autograd.profiler.record_function(
+                "train_step-%d" % i
+            ):
+                if update_freq > 1 and hasattr(epoch_itr.dataset, 'merge_samples'):
+                    samples = epoch_itr.dataset.merge_samples(samples)
+                log_output = trainer.train_step(samples, empty_cache=(i == 0))
 
-        if log_output is not None:  # not OOM, overflow, ...
-            # log mid-epoch stats
-            num_updates = trainer.get_num_updates()
-            if num_updates % cfg.common.log_interval == 0:
-                stats = get_training_stats(metrics.get_smoothed_values("train_inner"))
-                progress.log(stats, tag="train_inner", step=num_updates)
 
-                # reset mid-epoch stats after each log interval
-                # the end-of-epoch stats will still be preserved
-                metrics.reset_meters("train_inner")
+            if log_output is not None:  # not OOM, overflow, ...
+                # log mid-epoch stats
+                num_updates = trainer.get_num_updates()
+                if num_updates % cfg.common.log_interval == 0:
+                    stats = get_training_stats(metrics.get_smoothed_values("train_inner"))
+                    progress.log(stats, tag="train_inner", step=num_updates)
 
-        end_of_epoch = not itr.has_next()
-        valid_losses, should_stop = validate_and_save(
-            cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch
-        )
+                    # reset mid-epoch stats after each log interval
+                    # the end-of-epoch stats will still be preserved
+                    metrics.reset_meters("train_inner")
 
-        if should_stop:
-            break
+            end_of_epoch = not itr.has_next()
+            valid_losses, should_stop = validate_and_save(
+                cfg, trainer, task, epoch_itr, valid_subsets, end_of_epoch
+            )
+
+            if should_stop:
+                break
+    # except soundfile.LibsndfileError as e:
+    #     print(e)
+    #     print('e.args:',e.args)
+    except StopIteration:
+        print(f"Iteration stopped unexpectedly at position {i}.")
 
     # log end-of-epoch stats
     logger.info("end of epoch {} (average epoch stats below)".format(epoch_itr.epoch))

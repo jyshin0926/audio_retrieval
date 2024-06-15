@@ -35,10 +35,11 @@ class BaseDataset(FairseqDataset):
         self.eos = dictionary.eos()
         self.pad = dictionary.pad()
 
-        self.dataset_dir = os.path.join(
-            os.path.abspath(os.path.join(os.path.realpath(__file__), "../..")),
-            "dataset"
-        )
+        # self.dataset_dir = os.path.join(
+        #     os.path.abspath(os.path.join(os.path.realpath(__file__), "../..")),
+        #     "dataset")
+        # TODO:: 일단 아래 read_audio 외에는 dataset_dir 안쓰일 것 같으니까 임시방편으로 놔두기
+        self.dataset_dir = "/workspace/jaeyoung/data"
 
         # for audio
         self._features_size_map = {}
@@ -51,7 +52,8 @@ class BaseDataset(FairseqDataset):
         return Image.open(path).convert("RGB")
 
     def read_audio(self, audio_path):
-        path = os.path.join(self.dataset_dir, audio_path)
+        # path = os.path.join(self.dataset_dir, audio_path)
+        path = audio_path
         return sf.read(path, dtype="float32")
 
     def encode_text(self, text, length=None, use_bpe=True, append_eos=True):

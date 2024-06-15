@@ -8,12 +8,9 @@ task:
   data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_development.csv
   valid_data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation.csv
   # selected_cols: file_name,caption_1,caption_2,caption_3,caption_4,caption_5,keywords,sound_id
-  selected_cols: keywords,caption_1,file_name,sound_id
+  selected_cols: file_name,caption_1,sound_id
   # selected_cols: title,description,fname,tags
   valid_file: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation.csv
-  # data: ../../dataset/macs/merge_clotho_audiocaps_macs.tsv
-  # valid_data: ../../dataset/audiocaps/audiocaps_val_new.tsv
-  # selected_cols: uniq_id,audio,text,duration
   # valid_file: ../../dataset/audiocaps/val_texts.json
 
   max_duration: 20
@@ -30,7 +27,7 @@ optimization:
   skip_remainder_batch: false
 
 dataset:
-  batch_size: 2
+  batch_size: 8
   ensure_equal_batch: true
 
 common:
