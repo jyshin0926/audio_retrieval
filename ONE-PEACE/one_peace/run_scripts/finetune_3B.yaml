@@ -62,7 +62,8 @@ common:
 
 checkpoint:
   # restore_file: ../../checkpoints/one-peace.pt
-  restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt
+  # restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt
+  restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_ensemble.pt
   save_dir: ???
   keep_last_epochs: 3
   save_interval: 1

@@ -41,8 +41,7 @@ checkpoint:
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_jy
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_clotho_wt5k
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho_wt5k
-  save_dir : /workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho_metric_audio_r1
-
+  save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_clotho
 
 model:
   _name: one_peace_retrieval
