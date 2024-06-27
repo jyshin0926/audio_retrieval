@@ -295,6 +295,7 @@ def train(
     except soundfile.LibsndfileError as e:
         print(e)
         print('e.args:',e.args)
+        print('samples',samples)
     # except StopIteration:
     #     print(f"Iteration stopped unexpectedly at position {i}.")
 

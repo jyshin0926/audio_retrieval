@@ -6,12 +6,13 @@ task:
   _name: audio_text_retrieval
   # data: /workspace/jaeyoung/data/WavText5K/processed_wavtext5k.csv
   # data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_development.csv
-  data: /workspace/jaeyoung/data/clotho_dev_wavtext5k.csv
-  valid_data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation.csv
+  # data: /workspace/jaeyoung/data/clotho_dev_wavtext5k_nf1.csv
+  data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_development_nf1_0616.csv
+  # data: /workspace/jaeyoung/data/clotho_dataset/wavtext5k_test.csv
+  valid_data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation_nf1.csv
   # selected_cols: file_name,caption_1,caption_2,caption_3,caption_4,caption_5,keywords,sound_id
   selected_cols: file_name,caption,sound_id
-  # selected_cols: title,description,fname,tags
-  valid_file: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation.csv
+  valid_file: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation_nf1.csv
 
   max_duration: 20
   head_type: al
@@ -35,10 +36,12 @@ common:
   # tensorboard_logdir: /workspace/jaeyoung/checkpoints/tensorboard/onepeace_finetuned_jy
 
 checkpoint:
-  best_checkpoint_metric: txt_r1
+  # best_checkpoint_metric: txt_r1
+  best_checkpoint_metric: audio_r1
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_jy
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_clotho_wt5k
-  save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho_wt5k
+  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho_wt5k
+  save_dir : /workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho_metric_audio_r1
 
 
 model:
