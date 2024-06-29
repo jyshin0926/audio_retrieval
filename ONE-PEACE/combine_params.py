@@ -24,12 +24,14 @@ def map_roberta_to_onepeace(roberta_params):
     "embeddings.word_embeddings.weight": "encoder_wrapper.text_adapter.embed_tokens.weight",
     "embeddings.position_embeddings.weight": "encoder_wrapper.text_adapter.embed_positions.weight",
     "embeddings.token_type_embeddings.weight": "encoder_wrapper.text_adapter.token_type_embeddings.weight",
-    "embeddings.LayerNorm.weight": "encoder_wrapper.text_adapter.LayerNorm.weight",
-    "embeddings.LayerNorm.bias": "encoder_wrapper.text_adapter.LayerNorm.bias"}
+    # "embeddings.LayerNorm.weight": "encoder_wrapper.text_adapter.LayerNorm.weight",
+    # "embeddings.LayerNorm.bias": "encoder_wrapper.text_adapter.LayerNorm.bias"
+    }
 
     for i in range(23):
         onepeace_index = round(i * 1.7)
         mapping.update({
+            # Mapping self-attention components for each layer
             f"encoder.layer.{i}.attention.self.query.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.q_proj.weight",
             f"encoder.layer.{i}.attention.self.query.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.q_proj.bias",
             f"encoder.layer.{i}.attention.self.key.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.k_proj.weight",
@@ -40,6 +42,7 @@ def map_roberta_to_onepeace(roberta_params):
             f"encoder.layer.{i}.attention.output.dense.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.out_proj.bias",
             f"encoder.layer.{i}.attention.output.LayerNorm.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn_layer_norm.weight",
             f"encoder.layer.{i}.attention.output.LayerNorm.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn_layer_norm.bias",
+            # # Mapping feed-forward network components for each layer    
             f"encoder.layer.{i}.intermediate.dense.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.text_ffn.0.wi_0.weight",
             f"encoder.layer.{i}.intermediate.dense.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.text_ffn.0.wi_0.bias",
             f"encoder.layer.{i}.output.dense.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.text_ffn.2.weight",
@@ -48,49 +51,6 @@ def map_roberta_to_onepeace(roberta_params):
             # f"encoder.layer.{i}.output.LayerNorm.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.final_layer_norm.bias"
         })
 
-    
-    # Mapping self-attention components for each layer
-    # "encoder.layer.{}.attention.self.query.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.q_proj.weight",
-    # "encoder.layer.{}.attention.self.query.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.q_proj.bias",
-    # "encoder.layer.{}.attention.self.key.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.k_proj.weight",
-    # "encoder.layer.{}.attention.self.key.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.k_proj.bias",
-    # "encoder.layer.{}.attention.self.value.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.v_proj.weight",
-    # "encoder.layer.{}.attention.self.value.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.v_proj.bias",
-    # "encoder.layer.{}.attention.output.dense.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.out_proj.weight",
-    # "encoder.layer.{}.attention.output.dense.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.out_proj.bias",
-    # "encoder.layer.{}.attention.output.LayerNorm.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn_layer_norm.weight",
-    # "encoder.layer.{}.attention.output.LayerNorm.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn_layer_norm.bias",
-    
-    # "encoder.layer.{}.attention.self.query.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.q_proj.weight",
-    # "encoder.layer.{}.attention.self.query.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.q_proj.bias",
-    # "encoder.layer.{}.attention.self.key.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.k_proj.weight",
-    # "encoder.layer.{}.attention.self.key.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.k_proj.bias",
-    # "encoder.layer.{}.attention.self.value.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.v_proj.weight",
-    # "encoder.layer.{}.attention.self.value.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.v_proj.bias",
-    # "encoder.layer.{}.attention.output.dense.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.out_proj.weight",
-    # "encoder.layer.{}.attention.output.dense.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.out_proj.bias",
-    # "encoder.layer.{}.attention.output.LayerNorm.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn_layer_norm.weight",
-    # "encoder.layer.{}.attention.output.LayerNorm.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn_layer_norm.bias",
-    
-
-    # # Mapping feed-forward network components for each layer
-    # "encoder.layer.{}.intermediate.dense.weight": "encoder_wrapper.fusion_model.layers.{}.text_ffn.0.wi_0.weight",
-    # "encoder.layer.{}.intermediate.dense.bias": "encoder_wrapper.fusion_model.layers.{}.text_ffn.0.wi_0.bias",
-    # "encoder.layer.{}.output.dense.weight": "encoder_wrapper.fusion_model.layers.{}.text_ffn.2.weight",
-    # "encoder.layer.{}.output.dense.bias": "encoder_wrapper.fusion_model.layers.{}.text_ffn.2.bias",
-    # "encoder.layer.{}.output.LayerNorm.weight": "encoder_wrapper.fusion_model.layers.{}.final_layer_norm.weight",
-    # "encoder.layer.{}.output.LayerNorm.bias": "encoder_wrapper.fusion_model.layers.{}.final_layer_norm.bias"
-
-
-    # mapping = {
-    #     "embeddings.word_embeddings.weight": "encoder_wrapper.text_adapter.embed_tokens.weight",
-    #     "embeddings.position_embeddings.weight": "encoder_wrapper.text_adapter.embed_positions.weight",
-    #     "embeddings.token_type_embeddings.weight": "encoder_wrapper.text_adapter.token_type_embeddings.weight",
-    #     # "embeddings.LayerNorm.weight": "encoder_wrapper.text_adapter.LayerNorm.weight",
-    #     "embeddings.LayerNorm.bias": "encoder_wrapper.text_adapter.LayerNorm.bias",
-    #     # Add more mappings as needed for all layers
-    # }
-    
     converted_params = OrderedDict()
     for key, value in mapping.items():
         if key in roberta_params:
@@ -99,20 +59,54 @@ def map_roberta_to_onepeace(roberta_params):
 
 # Ensure dimensions match
 def match_dimensions(tensor, target_tensor):
-    batch_size, current_feature_size = tensor.shape
-    bsz2, target_feature_size = target_tensor.shape
-    
-    if current_feature_size == target_feature_size:
-        return tensor  # If already matched, return as is
+    # Adjust for tensor dimensionality
+    if tensor.dim() == 1:
+        current_feature_size = 1
+        tensor = tensor.unsqueeze(1)  # Convert to 2D by adding a dimension
     else:
-        # Create a Linear layer to transform feature dimension
-        linear_layer = nn.Linear(current_feature_size, target_feature_size)
-        # Apply the linear transformation
-        transformed_tensor = linear_layer(tensor)
+        current_feature_size = tensor.shape[1]
 
-        # full_dataset_tensor = torch.randn(50264, current_feature_size)
-        # transformed_full_dataset = linear_layer(full_dataset_tensor)
-        return transformed_tensor
+    if target_tensor.dim() == 1:
+        target_feature_size = 1
+        target_tensor = target_tensor.unsqueeze(1)  # Convert to 2D by adding a dimension
+    else:
+        target_feature_size = target_tensor.shape[1]
+
+    # Resize tensor if needed
+    if tensor.shape[0] != target_tensor.shape[0]:
+        # Handling vocabulary size mismatches
+        difference = target_tensor.shape[0] - tensor.shape[0]
+        if difference > 0:
+            # Pad the smaller tensor
+            padding = torch.zeros((difference, current_feature_size), device=tensor.device, dtype=tensor.dtype)
+            tensor = torch.cat([tensor, padding], dim=0)
+        else:
+            # Truncate the larger tensor
+            tensor = tensor[:target_tensor.shape[0], :]
+
+    # Transform feature dimension if necessary
+    if current_feature_size != target_feature_size:
+        linear_layer = nn.Linear(current_feature_size, target_feature_size).to(tensor.device)
+        tensor = linear_layer(tensor)
+
+    if tensor.dim() == 2 and (current_feature_size == 1 or target_feature_size == 1):
+        tensor = tensor.squeeze(1)  # Remove the artificial dimension if original was 1D
+
+    return tensor
+
+
+# def match_dimensions(tensor, target_tensor):
+#     batch_size, current_feature_size = tensor.shape
+#     bsz2, target_feature_size = target_tensor.shape
+    
+#     if current_feature_size == target_feature_size:
+#         return tensor
+
+#     else:
+#         # linear_layer = nn.Linear(target_feature_size, current_feature_size)
+#         linear_layer = nn.Linear(current_feature_size, target_feature_size)
+#         transformed_tensor = linear_layer(tensor)
+#         return transformed_tensor
 
 
 # Merge parameters
@@ -120,8 +114,7 @@ def merge_parameters(onepeace_params, mapped_params, alpha=0.5):
     combined_params = OrderedDict()
     for key in onepeace_params:
         if key in mapped_params:
-            # target_shape = onepeace_params[key].shape
-            matched_param = match_dimensions(mapped_params[key][:50264], onepeace_params[key])
+            matched_param = match_dimensions(mapped_params[key], onepeace_params[key])
             combined_params[key] = alpha * matched_param + (1 - alpha) * onepeace_params[key]
         else:
             combined_params[key] = onepeace_params[key]
@@ -161,21 +154,8 @@ if __name__=='__main__':
 
     # # Update ONE-PEACE model with combined parameters
     # onepeace_model.load_state_dict(combined_params, strict=False)
-    model_path = '/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_ensemble.pt'
-    # torch.save({'model':onepeace_model.state_dict(), 'cfg':onepeace_config}, model_path)
+    model_path = '/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_b_ensemble.pt'
     torch.save({'model':combined_params, 'cfg':onepeace_config}, model_path)
 
     # Print success message
     print("ONE-PEACE model's language branch successfully initialized with combined parameters.")
-
-
-
-    # # Assuming `onepeace_model` is your initial model
-    # initial_state = clone_model_state(onepeace_model)
-
-    # # Update the model's parameters (assuming this is done somewhere in your code)
-    # onepeace_model.load_state_dict(combined_params, strict=False)
-
-    # # Call the function to print updated parameters
-    # print_updated_params(onepeace_model, initial_state)
-
