@@ -12,20 +12,84 @@ from fairseq.data import Dictionary
 import os
 
 # RoBERTa 모델 로드
-roberta_model = RobertaModel.from_pretrained("roberta-base")
+# roberta_model = RobertaModel.from_pretrained("roberta-base")
+# onepeace_model = torch.load("/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt")
+roberta_model = RobertaModel.from_pretrained("roberta-large")
 onepeace_model = torch.load("/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt")
 
 
 # Define mapping function
 def map_roberta_to_onepeace(roberta_params):
     mapping = {
-        "embeddings.word_embeddings.weight": "encoder_wrapper.text_adapter.embed_tokens.weight",
-        "embeddings.position_embeddings.weight": "encoder_wrapper.text_adapter.embed_positions.weight",
-        "embeddings.token_type_embeddings.weight": "encoder_wrapper.text_adapter.token_type_embeddings.weight",
-        "embeddings.LayerNorm.weight": "encoder_wrapper.text_adapter.LayerNorm.weight",
-        "embeddings.LayerNorm.bias": "encoder_wrapper.text_adapter.LayerNorm.bias",
-        # Add more mappings as needed for all layers
-    }
+    "embeddings.word_embeddings.weight": "encoder_wrapper.text_adapter.embed_tokens.weight",
+    "embeddings.position_embeddings.weight": "encoder_wrapper.text_adapter.embed_positions.weight",
+    "embeddings.token_type_embeddings.weight": "encoder_wrapper.text_adapter.token_type_embeddings.weight",
+    "embeddings.LayerNorm.weight": "encoder_wrapper.text_adapter.LayerNorm.weight",
+    "embeddings.LayerNorm.bias": "encoder_wrapper.text_adapter.LayerNorm.bias"}
+
+    for i in range(23):
+        onepeace_index = round(i * 1.7)
+        mapping.update({
+            f"encoder.layer.{i}.attention.self.query.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.q_proj.weight",
+            f"encoder.layer.{i}.attention.self.query.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.q_proj.bias",
+            f"encoder.layer.{i}.attention.self.key.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.k_proj.weight",
+            f"encoder.layer.{i}.attention.self.key.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.k_proj.bias",
+            f"encoder.layer.{i}.attention.self.value.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.v_proj.weight",
+            f"encoder.layer.{i}.attention.self.value.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.v_proj.bias",
+            f"encoder.layer.{i}.attention.output.dense.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.out_proj.weight",
+            f"encoder.layer.{i}.attention.output.dense.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn.out_proj.bias",
+            f"encoder.layer.{i}.attention.output.LayerNorm.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn_layer_norm.weight",
+            f"encoder.layer.{i}.attention.output.LayerNorm.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.self_attn_layer_norm.bias",
+            f"encoder.layer.{i}.intermediate.dense.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.text_ffn.0.wi_0.weight",
+            f"encoder.layer.{i}.intermediate.dense.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.text_ffn.0.wi_0.bias",
+            f"encoder.layer.{i}.output.dense.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.text_ffn.2.weight",
+            f"encoder.layer.{i}.output.dense.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.text_ffn.2.bias",
+            # f"encoder.layer.{i}.output.LayerNorm.weight": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.final_layer_norm.weight",
+            # f"encoder.layer.{i}.output.LayerNorm.bias": f"encoder_wrapper.fusion_model.layers.{onepeace_index}.final_layer_norm.bias"
+        })
+
+    
+    # Mapping self-attention components for each layer
+    # "encoder.layer.{}.attention.self.query.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.q_proj.weight",
+    # "encoder.layer.{}.attention.self.query.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.q_proj.bias",
+    # "encoder.layer.{}.attention.self.key.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.k_proj.weight",
+    # "encoder.layer.{}.attention.self.key.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.k_proj.bias",
+    # "encoder.layer.{}.attention.self.value.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.v_proj.weight",
+    # "encoder.layer.{}.attention.self.value.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.v_proj.bias",
+    # "encoder.layer.{}.attention.output.dense.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.out_proj.weight",
+    # "encoder.layer.{}.attention.output.dense.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.out_proj.bias",
+    # "encoder.layer.{}.attention.output.LayerNorm.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn_layer_norm.weight",
+    # "encoder.layer.{}.attention.output.LayerNorm.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn_layer_norm.bias",
+    
+    # "encoder.layer.{}.attention.self.query.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.q_proj.weight",
+    # "encoder.layer.{}.attention.self.query.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.q_proj.bias",
+    # "encoder.layer.{}.attention.self.key.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.k_proj.weight",
+    # "encoder.layer.{}.attention.self.key.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.k_proj.bias",
+    # "encoder.layer.{}.attention.self.value.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.v_proj.weight",
+    # "encoder.layer.{}.attention.self.value.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.v_proj.bias",
+    # "encoder.layer.{}.attention.output.dense.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn.out_proj.weight",
+    # "encoder.layer.{}.attention.output.dense.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn.out_proj.bias",
+    # "encoder.layer.{}.attention.output.LayerNorm.weight": "encoder_wrapper.fusion_model.layers.{}.self_attn_layer_norm.weight",
+    # "encoder.layer.{}.attention.output.LayerNorm.bias": "encoder_wrapper.fusion_model.layers.{}.self_attn_layer_norm.bias",
+    
+
+    # # Mapping feed-forward network components for each layer
+    # "encoder.layer.{}.intermediate.dense.weight": "encoder_wrapper.fusion_model.layers.{}.text_ffn.0.wi_0.weight",
+    # "encoder.layer.{}.intermediate.dense.bias": "encoder_wrapper.fusion_model.layers.{}.text_ffn.0.wi_0.bias",
+    # "encoder.layer.{}.output.dense.weight": "encoder_wrapper.fusion_model.layers.{}.text_ffn.2.weight",
+    # "encoder.layer.{}.output.dense.bias": "encoder_wrapper.fusion_model.layers.{}.text_ffn.2.bias",
+    # "encoder.layer.{}.output.LayerNorm.weight": "encoder_wrapper.fusion_model.layers.{}.final_layer_norm.weight",
+    # "encoder.layer.{}.output.LayerNorm.bias": "encoder_wrapper.fusion_model.layers.{}.final_layer_norm.bias"
+
+
+    # mapping = {
+    #     "embeddings.word_embeddings.weight": "encoder_wrapper.text_adapter.embed_tokens.weight",
+    #     "embeddings.position_embeddings.weight": "encoder_wrapper.text_adapter.embed_positions.weight",
+    #     "embeddings.token_type_embeddings.weight": "encoder_wrapper.text_adapter.token_type_embeddings.weight",
+    #     # "embeddings.LayerNorm.weight": "encoder_wrapper.text_adapter.LayerNorm.weight",
+    #     "embeddings.LayerNorm.bias": "encoder_wrapper.text_adapter.LayerNorm.bias",
+    #     # Add more mappings as needed for all layers
+    # }
     
     converted_params = OrderedDict()
     for key, value in mapping.items():
