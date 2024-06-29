@@ -4,7 +4,6 @@ task:
   data: ???
   valid_data: ???
   selected_cols: ???
-  # bpe_dir: ../../utils/BPE
   bpe_dir: /workspace/jaeyoung/dcase2024_retrieval/ONE-PEACE/one_peace/utils/BPE
 
   max_src_length: 70

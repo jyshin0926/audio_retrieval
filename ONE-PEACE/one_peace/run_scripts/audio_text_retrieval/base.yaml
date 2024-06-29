@@ -14,7 +14,8 @@ task:
   selected_cols: file_name,caption,sound_id
   valid_file: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation_nf1.csv
 
-  max_duration: 20
+  # max_duration: 20
+  max_duration: 30
   head_type: al
 
 criterion:
