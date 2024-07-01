@@ -12,17 +12,18 @@ model = from_pretrained(
     # model_name_or_path ="/workspace/jaeyoung/checkpoints/onepeace_finetuned_jy/checkpoint4.pt",
     # model_name_or_path = "/workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho/checkpoint2.pt",
     # model_name_or_path= "/workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho_metric_audio_r1/checkpoint_best.pt",
-    model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_clotho/checkpoint1.pt",
+    model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701/checkpoint6.pt",
     model_type="one_peace_retrieval",
     device=device,
     dtype="float16"
 )
 
 # Load captions and prepare audio files
-captions_path = "/workspace/jaeyoung/data/clotho_dataset/clotho_captions_evaluation.csv"
-audio_dir = "/workspace/jaeyoung/data/clotho_dataset/evaluation_16k"
+# captions_path = "/workspace/jaeyoung/data/clotho_dataset/clotho_captions_evaluation.csv"
+captions_path = "/workspace/jaeyoung/data/clotho_dataset/merged_clotho_val_nf1.csv"
+audio_dir = "/workspace/jaeyoung/data/clotho_dataset/validation_16k"
 df = pd.read_csv(captions_path)
-text_queries = df['caption_2'].tolist()
+text_queries = df['caption'].tolist()
 file_names = df['file_name'].tolist()
 audio_files = os.listdir(audio_dir)
 audio_list = [os.path.join(audio_dir, x) for x in audio_files if not x.startswith('._')]

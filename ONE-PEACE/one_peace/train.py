@@ -292,7 +292,8 @@ def train(
             if should_stop:
                 break
 
-    except soundfile.LibsndfileError as e:
+    # except soundfile.LibsndfileError as e:
+    except Exception as e:
         print(e)
         print('e.args:',e.args)
         print('samples',samples)
