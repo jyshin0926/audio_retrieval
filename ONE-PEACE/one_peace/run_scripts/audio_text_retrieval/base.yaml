@@ -24,7 +24,8 @@ criterion:
 
 optimization:
   max_epoch: 10
-  lr: [1.5e-4]
+  # lr: [1.5e-4]
+  lr: [5e-6]
   update_freq: [1]
   skip_remainder_batch: false
 
@@ -39,8 +40,9 @@ common:
 checkpoint:
   # best_checkpoint_metric: txt_r1
   best_checkpoint_metric: audio_r1
+  save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta40_fusion_rep_unfz_txt_fusion_0703
   # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701
-  save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701_v2
+  # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701_v2
   # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_fusion_rep_0701
   # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta40_pretrained_fusion_rep_0701  # finetuned 임
 

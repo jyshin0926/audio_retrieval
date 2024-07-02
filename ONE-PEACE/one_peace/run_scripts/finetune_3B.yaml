@@ -63,8 +63,8 @@ checkpoint:
   # restore_file: ../../checkpoints/one-peace.pt
   # restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt
   # restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_l_ensemble50.pt
-  # restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_l_ensemble40.pt
-  restore_file: /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701_v2/checkpoint_best.pt
+  restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_l_ensemble40.pt
+  # restore_file: /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701_v2/checkpoint_best.pt
   save_dir: ???
   keep_last_epochs: 2
   save_interval: 1

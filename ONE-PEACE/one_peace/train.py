@@ -81,6 +81,22 @@ def main(cfg: FairseqConfig) -> None:
             model = fsdp_wrap(task.build_model(cfg.model))
     else:
         model = task.build_model(cfg.model)
+
+        # Freeze all parameters initially
+    for param in model.parameters():
+        param.requires_grad = False
+
+    # Unfreeze the last few layers, adjust this logic according to your model architecture
+    # Note: You need to adjust the unfreezing logic based on your specific model architecture.
+    for name, param in model.named_parameters():
+        if 'text' in name and int(name.split('.')[1]) >= 5:  # Example condition for RoBERTa layers
+            param.requires_grad = True
+        if 'fusion' in name:  # Example condition for fusion layers
+            param.requires_grad = True
+        # if 'audio' in name and int(name.split('.')[1]) >= 5:  # Example condition for audio layers
+        #     param.requires_grad = True
+    
+
     criterion = task.build_criterion(cfg.criterion)
 
     logger.info(model)
