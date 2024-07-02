@@ -75,8 +75,8 @@ class TransformerEncoder(FairseqEncoder):
         text_info,
         image_info,
         audio_info,
-        return_all_hiddens: bool = False,
-        # return_middle_hidden: bool =  True,
+        # return_all_hiddens: bool = False,
+        return_middle_hidden: bool =  True,
         encoder_type: Optional[str] = None
     ):
         """
@@ -192,26 +192,26 @@ class TransformerEncoder(FairseqEncoder):
             )
 
             # Record the middle state only if requested and at the middle layer
-            # if return_middle_hidden:
-            #     if text_info is not None:
-            #         start_idx, end_idx = 0, text_seq_len
-            #         middle_idx = (start_idx + end_idx) // 2
-            #         text_encoder_states.extend([x[middle_idx:middle_idx+1, :, :], x[end_idx-1, :, :]])
-            #     if audio_info is not None:
-            #         start_idx, end_idx = text_seq_len + image_seq_len, text_seq_len + image_seq_len + audio_seq_len
-            #         middle_idx = (start_idx + end_idx) //2
-            #         audio_encoder_states.extend([x[middle_idx:middle_idx+1, :, :], x[end_idx-1, :, :]])
-
-            if return_all_hiddens:
+            if return_middle_hidden:
                 if text_info is not None:
                     start_idx, end_idx = 0, text_seq_len
-                    text_encoder_states.append(x[start_idx:end_idx, :, :])
-                if image_info is not None:
-                    start_idx, end_idx = text_seq_len, text_seq_len + image_seq_len
-                    image_encoder_states.append(x[start_idx:end_idx, :, :])
+                    middle_idx = (start_idx + end_idx) // 2
+                    text_encoder_states.extend([x[middle_idx:middle_idx+2, :, :], x[end_idx-1, :, :]])
                 if audio_info is not None:
                     start_idx, end_idx = text_seq_len + image_seq_len, text_seq_len + image_seq_len + audio_seq_len
-                    audio_encoder_states.append(x[start_idx:end_idx, :, :])
+                    middle_idx = (start_idx + end_idx) //2
+                    audio_encoder_states.extend([x[middle_idx:middle_idx+2, :, :], x[end_idx-1, :, :]])
+
+            # if return_all_hiddens:
+            #     if text_info is not None:
+            #         start_idx, end_idx = 0, text_seq_len
+            #         text_encoder_states.append(x[start_idx:end_idx, :, :])
+            #     if image_info is not None:
+            #         start_idx, end_idx = text_seq_len, text_seq_len + image_seq_len
+            #         image_encoder_states.append(x[start_idx:end_idx, :, :])
+            #     if audio_info is not None:
+            #         start_idx, end_idx = text_seq_len + image_seq_len, text_seq_len + image_seq_len + audio_seq_len
+            #         audio_encoder_states.append(x[start_idx:end_idx, :, :])
 
 
         if encoder_type == 'text':
@@ -247,7 +247,7 @@ class TransformerEncoder(FairseqEncoder):
             "audio_encoder_states": audio_encoder_states,  # List[T x B x C]
         }
 
-                # Post-processing and return structure adjustments
+        #         # Post-processing and return structure adjustments
         # return {
         #     "encoder_out": [x],  # Last layer's output
         #     "encoder_padding_mask": encoder_padding_mask,

@@ -1,15 +1,19 @@
 
 task:
   _name: audio_text_pretrain
-  data: ../../dataset/macs/merge_clotho_audiocaps_macs.tsv
-  valid_data: ../../dataset/audiocaps/audiocaps_val_new.tsv
-  selected_cols: uniq_id,audio,text,duration
+  # data: ../../dataset/macs/merge_clotho_audiocaps_macs.tsv
+  # valid_data: ../../dataset/audiocaps/audiocaps_val_new.tsv
+  # selected_cols: uniq_id,audio,text,duration
+  data: /workspace/jaeyoung/data/exist_clotho_dev_audiocaps.csv
+  valid_data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_val_nf1.csv
+  selected_cols: file_name,caption,sound_id
   bpe_dir: ../../utils/BPE
 
   max_src_length: 70
   max_duration: 15
 
-  valid_file: ../../dataset/esc50/esc50_label.json
+  # valid_file: ../../dataset/esc50/esc50_label.json
+  valid_file: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_val_nf1.csv
   audio_mask_ratio: 0.55
   al_text_mask_ratio: 0.4
   al_audio_mask_ratio: 0.45
@@ -77,7 +81,8 @@ common:
 checkpoint:
   keep_last_epochs: 10
   save_interval: 1
-  best_checkpoint_metric: txt_r1
+  # best_checkpoint_metric: txt_r1
+  best_checkpoint_metric: audio_r1
   maximize_best_checkpoint_metric: true
   no_save_optimizer_state: true
   load_checkpoint_on_all_dp_ranks: true

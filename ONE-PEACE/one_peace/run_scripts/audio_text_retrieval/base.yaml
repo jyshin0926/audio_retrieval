@@ -39,10 +39,10 @@ common:
 checkpoint:
   # best_checkpoint_metric: txt_r1
   best_checkpoint_metric: audio_r1
-  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_jy
-  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_clotho_wt5k
-  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho_wt5k
-  save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701
+  # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701
+  save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701_v2
+  # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_fusion_rep_0701
+  # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta40_pretrained_fusion_rep_0701  # finetuned 임
 
 model:
   _name: one_peace_retrieval

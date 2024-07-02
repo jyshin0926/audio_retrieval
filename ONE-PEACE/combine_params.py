@@ -110,7 +110,7 @@ def match_dimensions(tensor, target_tensor):
 
 
 # Merge parameters
-def merge_parameters(onepeace_params, mapped_params, alpha=0.5):
+def merge_parameters(onepeace_params, mapped_params, alpha=0.4):
     combined_params = OrderedDict()
     for key in onepeace_params:
         if key in mapped_params:
@@ -154,7 +154,7 @@ if __name__=='__main__':
 
     # # Update ONE-PEACE model with combined parameters
     # onepeace_model.load_state_dict(combined_params, strict=False)
-    model_path = '/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_b_ensemble.pt'
+    model_path = '/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_l_ensemble40.pt'
     torch.save({'model':combined_params, 'cfg':onepeace_config}, model_path)
 
     # Print success message

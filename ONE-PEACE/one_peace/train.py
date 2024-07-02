@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import soundfile
 
 # os.environ['MASTER_PORT'] = '6081'
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 # os.environ['GPUS_PER_NODE'] = '1'
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
