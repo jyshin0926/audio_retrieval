@@ -89,10 +89,23 @@ def main(cfg: FairseqConfig) -> None:
     # Unfreeze the last few layers, adjust this logic according to your model architecture
     # Note: You need to adjust the unfreezing logic based on your specific model architecture.
     for name, param in model.named_parameters():
-        if 'text' in name and int(name.split('.')[1]) >= 5:  # Example condition for RoBERTa layers
-            param.requires_grad = True
-        if 'fusion' in name:  # Example condition for fusion layers
-            param.requires_grad = True
+        # Split the name by '.' and filter out non-numeric parts for safe integer conversion
+        parts = name.split('.')
+        # Attempt to find a part that can be converted to an integer (layer index)
+        layer_index = None
+        for part in parts:
+            try:
+                layer_index = int(part)
+                break  # Stop at the first successful conversion
+            except ValueError:
+                continue  # Ignore parts that cannot be converted to int
+
+        # Check if we found a numeric part and apply conditions
+        if layer_index is not None:
+            if 'text' in name and layer_index >= 5:  # Example condition for RoBERTa layers
+                param.requires_grad = True
+            if 'fusion' in name:  # Fusion layers are always trainable
+                param.requires_grad = True
         # if 'audio' in name and int(name.split('.')[1]) >= 5:  # Example condition for audio layers
         #     param.requires_grad = True
     

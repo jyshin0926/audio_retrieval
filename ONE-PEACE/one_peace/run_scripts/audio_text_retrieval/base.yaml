@@ -40,7 +40,9 @@ common:
 checkpoint:
   # best_checkpoint_metric: txt_r1
   best_checkpoint_metric: audio_r1
-  save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta40_fusion_rep_unfz_txt_fusion_0703
+  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta40_fusion_rep_unfz_txt_fusion_0703
+  save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr-4_lr-6
+  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr-4
   # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701
   # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701_v2
   # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_fusion_rep_0701

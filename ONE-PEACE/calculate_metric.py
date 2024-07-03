@@ -8,7 +8,10 @@ from one_peace.models import from_pretrained
 # Initialize device and model
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = from_pretrained(
-    model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_fusion_rep_0701/checkpoint6.pt",
+    model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr_4_lr_6/checkpoint1.pt",
+    # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr-4/checkpoint_best.pt",
+    # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr_4_lr_6/checkpoint_best.pt",
+    # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_fusion_rep_0701/checkpoint6.pt",
     # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta40_pretrained_fusion_rep_0701/checkpoint_best.pt",
     # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
     # model_name_or_path ="/workspace/jaeyoung/checkpoints/onepeace_finetuned_jy/checkpoint4.pt",
