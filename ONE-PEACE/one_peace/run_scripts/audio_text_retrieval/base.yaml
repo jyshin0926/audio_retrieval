@@ -25,14 +25,15 @@ criterion:
 
 optimization:
   max_epoch: 10
+  lr: [2e-4]
   # lr: [1.5e-4]
-  lr: [1e-5]
+  # lr: [1e-5]
   # lr: [5e-6]
   update_freq: [1]
   skip_remainder_batch: false
 
 dataset:
-  batch_size: 8
+  batch_size: 12
   ensure_equal_batch: true
 
 common:

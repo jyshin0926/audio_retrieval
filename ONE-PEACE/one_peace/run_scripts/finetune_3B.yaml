@@ -32,7 +32,7 @@ optimization:
   clip_norm: 0.0
 
 dataset:
-  num_workers: 64
+  num_workers: 128
   batch_size: ???
   fixed_validation_seed: 3407
   validate_interval: 1
@@ -60,7 +60,8 @@ common:
   seed: 3407
 
 checkpoint:
-  restore_file: /workspace/jaeyoung/onepeace_pretrained_chkpoint/onepeace_roberta_l_ensemble40_layer13_23.pt
+  restore_file: /workspace/jaeyoung/checkpoints/onepeace_roberta_l_ensemble40_layer13_23_0704/checkpoint3.pt
+  # restore_file: /workspace/jaeyoung/onepeace_pretrained_chkpoint/onepeace_roberta_l_ensemble40_layer13_23.pt
   # restore_file: /workspace/jaeyoung/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_l_ensemble40.pt
   # restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_rep_unfz_txt_fusion_roberta60_0703/checkpoint_best.pt
   # restore_file: /workspace/jaeyoung/onepeace_pretrained_chkpoint/onepeace_roberta_l_ensemble60.pt
