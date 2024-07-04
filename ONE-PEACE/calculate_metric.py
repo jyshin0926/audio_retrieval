@@ -1,6 +1,6 @@
 import pandas as pd
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 import torch
 from tqdm import tqdm
 from one_peace.models import from_pretrained
@@ -8,16 +8,18 @@ from one_peace.models import from_pretrained
 # Initialize device and model
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = from_pretrained(
-    model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr_4_lr_6/checkpoint1.pt",
+    model_name_or_path="/workspace/jaeyoung/onepeace_pretrained_chkpoint/onepeace_roberta_l_ensemble60.pt",
+    # model_name_or_path="/workspace/jaeyoung/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_l_ensemble40.pt",
+    # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta40_pretrained_fusion_rep_0701/checkpoint_best.pt",
+    # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701_v2/checkpoint_best.pt",
+    # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta40_fusion_rep_unfz_txt_fusion_0703/checkpoint_best.pt",
     # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr-4/checkpoint_best.pt",
     # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr_4_lr_6/checkpoint_best.pt",
     # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_fusion_rep_0701/checkpoint6.pt",
     # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta40_pretrained_fusion_rep_0701/checkpoint_best.pt",
     # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt",
-    # model_name_or_path ="/workspace/jaeyoung/checkpoints/onepeace_finetuned_jy/checkpoint4.pt",
     # model_name_or_path = "/workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho/checkpoint2.pt",
     # model_name_or_path= "/workspace/jaeyoung/checkpoints/onepeace_finetuned_middle_clotho_metric_audio_r1/checkpoint_best.pt",
-    # model_name_or_path="/workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701/checkpoint6.pt",
     model_type="one_peace_retrieval",
     device=device,
     dtype="float16"
@@ -99,86 +101,3 @@ if __name__ == '__main__':
         mAP = sum(ap_scores) / len(ap_scores) if ap_scores else 0
 
         print(f"Mean AP: {mAP}")
-
-        # # Save results
-        # results_df = pd.DataFrame(results)
-        # results_csv_path = '/workspace/jaeyoung/dcase2024_retrieval/submission/new_onepeace_retrieval_metrics.csv'
-        # results_df.to_csv(results_csv_path, index=False)
-        # print(f"Metrics saved to {results_csv_path}")
-
-
-# # Load captions and prepare audio files
-# captions_path = "/workspace/jaeyoung/evaluation_dataset/clotho/clotho_captions_evaluation.csv"
-# audio_dir = "/workspace/jaeyoung/evaluation_dataset/clotho/evaluation"
-# df = pd.read_csv(captions_path)
-# text_queries = df['caption_1'].tolist()
-# file_names = df['file_name'].tolist()
-# audio_files = os.listdir(audio_dir)
-# audio_list = [os.path.join(audio_dir, x) for x in audio_files if not x.startswith('._')]
-
-# # Map file names to indices in the audio_list for faster retrieval
-# audio_index_map = {file: i for i, file in enumerate(audio_list)}
-
-# results = []
-
-# # Batch processing parameters
-# audio_batch_size = 10  # Adjust based on your GPU capacity
-# text_batch_size = 50   # Adjust based on your GPU capacity
-
-# if __name__ == '__main__':
-#     with torch.no_grad():
-#         # Process audio in batches
-#         all_audio_features = []
-#         for i in range(0, len(audio_list), audio_batch_size):
-#             batch_audio_list = audio_list[i:i + audio_batch_size]
-#             src_audios, audio_padding_masks = model.process_audio(batch_audio_list)
-#             batch_audio_features = model.extract_audio_features(src_audios, audio_padding_masks)
-#             all_audio_features.append(batch_audio_features)
-#         all_audio_features = torch.cat(all_audio_features, dim=0).to(device)
-
-#         # Process text in batches
-#         all_text_features = []
-#         for i in range(0, len(text_queries), text_batch_size):
-#             batch_text_queries = text_queries[i:i + text_batch_size]
-#             text_tokens = model.process_text(batch_text_queries)
-#             batch_text_features = model.extract_text_features(text_tokens)
-#             all_text_features.append(batch_text_features)
-#         all_text_features = torch.cat(all_text_features, dim=0).to(device)
-
-#         # Compute similarity scores
-#         similarity_scores = torch.matmul(all_audio_features, all_text_features.T)
-
-
-
-
-        # # Retrieve and calculate metrics
-        # for text_idx, single_text_features in tqdm(enumerate(all_text_features)):
-        #     true_audio_file = os.path.join(audio_dir, file_names[text_idx])
-        #     true_index = audio_index_map.get(true_audio_file, -1)
-
-        #     if true_index == -1:
-        #         continue  # Skip if no valid match is found
-
-        #     single_similarity_scores = similarity_scores[:, text_idx]
-        #     top_k_indices = torch.topk(single_similarity_scores, k=10).indices
-
-        #     r_1 = 1 if true_index in top_k_indices[:1] else 0
-        #     r_5 = 1 if true_index in top_k_indices[:5] else 0
-        #     r_10 = 1 if true_index in top_k_indices[:10] else 0
-
-        #     ranks = torch.where(top_k_indices == true_index)[0]
-        #     ap = 1.0 / (ranks[0].item() + 1) if len(ranks) > 0 else 0
-
-        #     results.append({
-        #         "caption": text_queries[text_idx],
-        #         "R@1": r_1,
-        #         "R@5": r_5,
-        #         "R@10": r_10,
-        #         "mAP": ap
-        #     })
-
-        # # Save results
-        # results_df = pd.DataFrame(results)
-        # results_csv_path = '/workspace/jaeyoung/dcase2024_retrieval/submission/onepeace_retrieval_metrics.csv'
-        # results_df.to_csv(results_csv_path, index=False)
-        # print(f"Metrics saved to {results_csv_path}")

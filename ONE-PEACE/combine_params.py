@@ -15,7 +15,8 @@ import os
 # roberta_model = RobertaModel.from_pretrained("roberta-base")
 # onepeace_model = torch.load("/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt")
 roberta_model = RobertaModel.from_pretrained("roberta-large")
-onepeace_model = torch.load("/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt")
+onepeace_model = torch.load("/workspace/jaeyoung/onepeace_pretrained_chkpoint/finetune_al_retrieval_onepiece.pt")
+# onepeace_model = torch.load("/workspace/jaeyoung/onepeace_pretrained_chkpoint/one-peace.pt")
 
 
 # Define mapping function
@@ -28,7 +29,8 @@ def map_roberta_to_onepeace(roberta_params):
     # "embeddings.LayerNorm.bias": "encoder_wrapper.text_adapter.LayerNorm.bias"
     }
 
-    for i in range(23):
+    # for i in range(23):
+    for i in range(10, 24, 2):
         onepeace_index = round(i * 1.7)
         mapping.update({
             # Mapping self-attention components for each layer
@@ -95,22 +97,8 @@ def match_dimensions(tensor, target_tensor):
     return tensor
 
 
-# def match_dimensions(tensor, target_tensor):
-#     batch_size, current_feature_size = tensor.shape
-#     bsz2, target_feature_size = target_tensor.shape
-    
-#     if current_feature_size == target_feature_size:
-#         return tensor
-
-#     else:
-#         # linear_layer = nn.Linear(target_feature_size, current_feature_size)
-#         linear_layer = nn.Linear(current_feature_size, target_feature_size)
-#         transformed_tensor = linear_layer(tensor)
-#         return transformed_tensor
-
-
 # Merge parameters
-def merge_parameters(onepeace_params, mapped_params, alpha=0.7):
+def merge_parameters(onepeace_params, mapped_params, alpha=0.4):
     combined_params = OrderedDict()
     for key in onepeace_params:
         if key in mapped_params:
@@ -154,7 +142,7 @@ if __name__=='__main__':
 
     # # Update ONE-PEACE model with combined parameters
     # onepeace_model.load_state_dict(combined_params, strict=False)
-    model_path = '/workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_l_ensemble70.pt'
+    model_path = '/workspace/jaeyoung/onepeace_pretrained_chkpoint/onepeace_roberta_l_ensemble40_layer13_23.pt'
     torch.save({'model':combined_params, 'cfg':onepeace_config}, model_path)
 
     # Print success message

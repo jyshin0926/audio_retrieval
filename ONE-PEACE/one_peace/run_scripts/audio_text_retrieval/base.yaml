@@ -8,11 +8,12 @@ task:
   # data: /workspace/jaeyoung/data/clotho_dev_wavtext5k_nf1.csv
   data: /workspace/jaeyoung/data/exist_clotho_dev_audiocaps.csv
   # data: /workspace/jaeyoung/data/merged_clotho_dev_audiocaps.csv
-  # valid_data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation_nf1.csv
-  valid_data: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_val_nf1.csv
+  valid_data: /workspace/jaeyoung/dcase2024_retrieval/ONE-PEACE/one_peace/data/merged_clotho_val_nf1.csv
+  # valid_data: /workspace/jaeyoung/data/clotho_dataset/clotho_captions_evaluation.csv
   selected_cols: file_name,caption,sound_id
-  valid_file: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_val_nf1.csv
-  # valid_file: /workspace/jaeyoung/data/clotho_dataset/merged_clotho_validation_nf1.csv
+  valid_file: /workspace/jaeyoung/dcase2024_retrieval/ONE-PEACE/one_peace/data/merged_clotho_val_nf1.csv
+  # valid_file: /workspace/jaeyoung/data/clotho_dataset/clotho_captions_evaluation.csv
+
 
   max_duration: 20
   # max_duration: 30
@@ -25,7 +26,8 @@ criterion:
 optimization:
   max_epoch: 10
   # lr: [1.5e-4]
-  lr: [5e-6]
+  lr: [1e-5]
+  # lr: [5e-6]
   update_freq: [1]
   skip_remainder_batch: false
 
@@ -35,13 +37,15 @@ dataset:
 
 common:
   layer_decay: 0.95
-  # tensorboard_logdir: /workspace/jaeyoung/checkpoints/tensorboard/onepeace_finetuned_jy
+  # tensorboard_logdir: /workspace/jaeyoung/checkpoints/tensorboard/onepeace_roberta_finetuned_jy
 
 checkpoint:
   # best_checkpoint_metric: txt_r1
   best_checkpoint_metric: audio_r1
+  save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta_l_ensemble40_layer13_23_0704
+  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_pretrained_rep_unfz_txt_fusion_roberta60_0703
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta40_fusion_rep_unfz_txt_fusion_0703
-  save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr-4_lr-6
+  # save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr-4_lr-6
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr-4
   # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701
   # save_dir : /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701_v2
