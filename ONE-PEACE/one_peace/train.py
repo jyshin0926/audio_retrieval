@@ -91,33 +91,17 @@ def main(cfg: FairseqConfig) -> None:
     for name, param in model.named_parameters():
         # Split the name by '.' and filter out non-numeric parts for safe integer conversion
         parts = name.split('.')
-        # Attempt to find a part that can be converted to an integer (layer index)
-        # layer_index = None
-        # for part in parts:
-        #     try:
-        #         layer_index = int(part)
-        #         break  # Stop at the first successful conversion
-        #     except ValueError:
-        #         continue  # Ignore parts that cannot be converted to int
-
         # Check if we found a numeric part and apply conditions
         if len(parts) >= 3:
             if parts[1] == 'text_adapter':
                 if parts[2] in ['cls_embedding', 'embed_tokens', 'embed_positions']:
                     param.requires_grad = True
+            if parts[1] == 'audio_adapter':
+                    param.requires_grad = True
         if len(parts) >= 5:         
-            if parts[1] == 'fusion_model' and parts[4] in ['self_attn', 'text_ffn']:
+            if parts[1] == 'fusion_model' and parts[4] in ['self_attn', 'text_ffn', 'audio_ffn']:
                 if parts[3].isdigit() and int(parts[3]) >= 15:
                     param.requires_grad = True
-
-
-            # if 'fusion' in name and 'self_attn' in name and layer_index >= 15:  # Example condition for RoBERTa layers
-            #     param.requires_grad = True
-            # if 'fusion' in name and 'text_ffn' in name and layer_index >= 15:  # Fusion layers are always trainable
-            #     param.requires_grad = True
-                # if 'audio' in name and layer_index >= 5:  # Example condition for audio layers
-                #     param.requires_grad = True
-    
 
     criterion = task.build_criterion(cfg.criterion)
 

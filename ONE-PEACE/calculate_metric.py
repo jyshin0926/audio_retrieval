@@ -1,13 +1,13 @@
 import pandas as pd
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '2'
+os.environ['CUDA_VISIBLE_DEVICES'] = '3'
 import torch
 from tqdm import tqdm
 from one_peace.models import from_pretrained
 
 # Initialize device and model
 device = "cuda" if torch.cuda.is_available() else "cpu"
-model_path = "/workspace/jaeyoung/checkpoints/onepeace_roberta_l_ensemble40_layer13_23_0704/checkpoint_best.pt"
+model_path = "/workspace/jaeyoung/checkpoints/onepeace_roberta_l_ensemble40_layer13_23_0705/checkpoint4.pt"
 print(f'model: {model_path}')
 model = from_pretrained(
     model_name_or_path=model_path,

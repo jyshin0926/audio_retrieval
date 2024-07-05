@@ -9,10 +9,10 @@ task:
   data: /workspace/jaeyoung/data/exist_clotho_dev_audiocaps.csv
   # data: /workspace/jaeyoung/data/merged_clotho_dev_audiocaps.csv
   valid_data: /workspace/jaeyoung/dcase2024_retrieval/ONE-PEACE/one_peace/data/merged_clotho_val_nf1.csv
-  # valid_data: /workspace/jaeyoung/data/clotho_dataset/clotho_captions_evaluation.csv
+  # valid_data: /workspace/jaeyoung/data/merged_clotho_evaluation.csv
   selected_cols: file_name,caption,sound_id
   valid_file: /workspace/jaeyoung/dcase2024_retrieval/ONE-PEACE/one_peace/data/merged_clotho_val_nf1.csv
-  # valid_file: /workspace/jaeyoung/data/clotho_dataset/clotho_captions_evaluation.csv
+  # valid_file: /workspace/jaeyoung/data/merged_clotho_evaluation.csv
 
 
   max_duration: 20
@@ -24,9 +24,9 @@ criterion:
   label_smoothing: 0.0
 
 optimization:
-  max_epoch: 10
-  lr: [2e-4]
-  # lr: [1.5e-4]
+  max_epoch: 5
+  # lr: [2e-4]
+  lr: [1.5e-4]
   # lr: [1e-5]
   # lr: [5e-6]
   update_freq: [1]
@@ -43,7 +43,7 @@ common:
 checkpoint:
   # best_checkpoint_metric: txt_r1
   best_checkpoint_metric: audio_r1
-  save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta_l_ensemble40_layer13_23_0704
+  save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta_l_ensemble40_layer13_23_0705
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_pretrained_rep_unfz_txt_fusion_roberta60_0703
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta40_fusion_rep_unfz_txt_fusion_0703
   # save_dir: /workspace/jaeyoung/checkpoints/onepeace_roberta70_fusion_rep_unfz_txt_fusion_0703_lr-4_lr-6

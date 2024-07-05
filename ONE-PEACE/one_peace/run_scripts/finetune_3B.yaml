@@ -60,7 +60,7 @@ common:
   seed: 3407
 
 checkpoint:
-  restore_file: /workspace/jaeyoung/checkpoints/onepeace_roberta_l_ensemble40_layer13_23_0704/checkpoint3.pt
+  restore_file: /workspace/jaeyoung/checkpoints/onepeace_roberta_l_ensemble40_layer13_23_0704/checkpoint1.pt
   # restore_file: /workspace/jaeyoung/onepeace_pretrained_chkpoint/onepeace_roberta_l_ensemble40_layer13_23.pt
   # restore_file: /workspace/jaeyoung/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_l_ensemble40.pt
   # restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_rep_unfz_txt_fusion_roberta60_0703/checkpoint_best.pt
@@ -72,7 +72,7 @@ checkpoint:
   # restore_file: /workspace/jaeyoung/checkpoints/onepeace_pretrained_chkpoint/retrieval_onepeace_roberta_l_ensemble40.pt
   # restore_file: /workspace/jaeyoung/checkpoints/onepeace_roberta_finetuned_0701_v2/checkpoint_best.pt
   save_dir: ???
-  keep_last_epochs: 2
+  keep_last_epochs: 5
   save_interval: 1
   best_checkpoint_metric: ???
   maximize_best_checkpoint_metric: true
