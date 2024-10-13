@@ -1,1 +1,1 @@
-Developing Audio Retrieval model based on ONE-PEACE and feature fusion strategy
+Developing Audio Retrieval model based on a large multimodal model and feature fusion strategy
